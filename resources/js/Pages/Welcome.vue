@@ -14,7 +14,6 @@ defineProps({
     platform: String,
     platformVersion: String,
     host: String,
-    isp: String,
 });
 </script>
 
@@ -191,7 +190,6 @@ defineProps({
                     Platform: {{ platform }} {{ platformVersion }}
                     Agent: {{ userAgent }}
                     Host: {{ host }}
-                    ISP: {{ isp }}
                 </pre>
         </div>
     </div>
