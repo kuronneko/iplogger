@@ -25,12 +25,12 @@ Route::get('/', function () {
         'date' => now(),
         //'ip' => Request::ip(),
         'userAgent' => Request::header('user-agent'),
-        'location' =>  Location::get('200.86.155.87'), //Request::ip()
+        'location' =>  Location::get(Request::ip()), //Request::ip()
         'browser' => Agent::browser(),
         'browserVersion' => Agent::version(Agent::browser()),
         'platform' => Agent::platform(),
         'platformVersion' => Agent::version(Agent::platform()),
-        'host' => Request::getHttpHost('200.86.155.87'),
+        'host' => Request::getHttpHost(Request::ip()),
         'isp' => gethostbyaddr($_SERVER['REMOTE_ADDR']),
     ]);
 });
