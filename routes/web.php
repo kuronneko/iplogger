@@ -38,7 +38,7 @@ Route::get('/', function () {
         'platform' => Agent::platform(),
         'platformVersion' => Agent::version(Agent::platform()),
         'host' => gethostbyaddr($ip),
-        'isp' => geoip_isp_by_name($ip),
+        'isp' => geoip_isp_by_name(gethostbyaddr($ip)),
     ]);
 });
 
