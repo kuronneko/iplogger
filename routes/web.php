@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Stevebauman\Location\Facades\Location;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,16 @@ Route::get('/', function () {
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
+        'date' => now(),
+        //'ip' => Request::ip(),
+        'userAgent' => Request::header('user-agent'),
+        'location' =>  Location::get('200.86.155.87'), //Request::ip()
+        'browser' => Agent::browser(),
+        'browserVersion' => Agent::version(Agent::browser()),
+        'platform' => Agent::platform(),
+        'platformVersion' => Agent::version(Agent::platform()),
+        'host' => Request::getHttpHost('200.86.155.87'),
+        'isp' => gethostbyaddr($_SERVER['REMOTE_ADDR']),
     ]);
 });
 
