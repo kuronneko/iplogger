@@ -23,6 +23,7 @@ Route::get('/', function () {
     getenv('HTTP_FORWARDED_FOR')?:
     getenv('HTTP_FORWARDED')?:
     getenv('REMOTE_ADDR');
+    //$ip = '200.86.155.87';
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -36,8 +37,8 @@ Route::get('/', function () {
         'browserVersion' => Agent::version(Agent::browser()),
         'platform' => Agent::platform(),
         'platformVersion' => Agent::version(Agent::platform()),
-        'host' => Request::getHttpHost($ip),
-        'isp' => gethostbyaddr($_SERVER['REMOTE_ADDR']),
+        'host' => gethostbyaddr($ip),
+        'isp' => 'Empty',
     ]);
 });
 
