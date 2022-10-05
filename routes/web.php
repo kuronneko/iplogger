@@ -23,7 +23,6 @@ Route::get('/', function () {
     getenv('HTTP_FORWARDED_FOR')?:
     getenv('HTTP_FORWARDED')?:
     getenv('REMOTE_ADDR');
-    dd($ip);
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
