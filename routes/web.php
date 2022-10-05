@@ -17,7 +17,7 @@ use Stevebauman\Location\Facades\Location;
 */
 
 Route::get('/', function () {
-    $ip = request()->ip();
+    $ip = $_SERVER['REMOTE_ADDR'];
     //dd($ip);
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
