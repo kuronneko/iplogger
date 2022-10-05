@@ -184,15 +184,14 @@ defineProps({
                 </div>
             </div>
             <pre class="text-white">
-                    {{ date }}
-                    {{ location.ip }}
-                    {{ location.countryName }}, {{ location.cityName }}
-                    {{ browser }} ({{browserVersion}})
-                    {{ platform }} {{ platformVersion }}
-                    {{ userAgent }}
-                    {{ host }}
-                    {{ location }}
-                    {{ isp }}
+                    Date: {{ date }}
+                    IP: {{ location.ip }}
+                    Country: {{ location.countryName }}, {{ location.cityName }}
+                    Browser: {{ browser }} ({{browserVersion}})
+                    Platform: {{ platform }} {{ platformVersion }}
+                    Agent: {{ userAgent }}
+                    Host: {{ host }}
+                    ISP: {{ isp }}
                 </pre>
         </div>
     </div>

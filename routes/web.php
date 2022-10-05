@@ -17,6 +17,8 @@ use Stevebauman\Location\Facades\Location;
 */
 
 Route::get('/', function () {
+    $ip = request()->ip();
+    //dd($ip);
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -25,12 +27,12 @@ Route::get('/', function () {
         'date' => now(),
         //'ip' => Request::ip(),
         'userAgent' => Request::header('user-agent'),
-        'location' =>  Location::get(request()->getClientIp()), //Request::ip()
+        'location' =>  Location::get($ip), //Request::ip()
         'browser' => Agent::browser(),
         'browserVersion' => Agent::version(Agent::browser()),
         'platform' => Agent::platform(),
         'platformVersion' => Agent::version(Agent::platform()),
-        'host' => Request::getHttpHost(request()->getClientIp()),
+        'host' => Request::getHttpHost($ip),
         'isp' => gethostbyaddr($_SERVER['REMOTE_ADDR']),
     ]);
 });
