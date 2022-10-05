@@ -17,8 +17,13 @@ use Stevebauman\Location\Facades\Location;
 */
 
 Route::get('/', function () {
-    $ip = $_SERVER['REMOTE_ADDR'];
-    //dd($ip);
+    $ip = getenv('HTTP_CLIENT_IP')?:
+    getenv('HTTP_X_FORWARDED_FOR')?:
+    getenv('HTTP_X_FORWARDED')?:
+    getenv('HTTP_FORWARDED_FOR')?:
+    getenv('HTTP_FORWARDED')?:
+    getenv('REMOTE_ADDR');
+    dd($ip);
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
