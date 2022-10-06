@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\LoggerController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Jenssegers\Agent\Facades\Agent;
 use Stevebauman\Location\Facades\Location;
 
 /*
@@ -17,22 +19,21 @@ use Stevebauman\Location\Facades\Location;
 */
 
 Route::get('/', function () {
-    $ip = getenv('HTTP_CLIENT_IP')?:
+/*     $ip = getenv('HTTP_CLIENT_IP')?:
     getenv('HTTP_X_FORWARDED_FOR')?:
     getenv('HTTP_X_FORWARDED')?:
     getenv('HTTP_FORWARDED_FOR')?:
     getenv('HTTP_FORWARDED')?:
-    getenv('REMOTE_ADDR');
-    //$ip = '200.86.155.87';
+    getenv('REMOTE_ADDR'); */
+    $ip = '200.86.155.87';
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
         'date' => now(),
-        //'ip' => Request::ip(),
         'userAgent' => Request::header('user-agent'),
-        'location' =>  Location::get($ip), //Request::ip()
+        'location' =>  Location::get($ip),
         'browser' => Agent::browser(),
         'browserVersion' => Agent::version(Agent::browser()),
         'platform' => Agent::platform(),
@@ -41,12 +42,11 @@ Route::get('/', function () {
     ]);
 });
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/dashboard', function () {
+
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', ])->group(function () {
+/*    Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
-    })->name('dashboard');
+    })->name('dashboard'); */
+    Route::resource('logger', LoggerController::class);
+    Route::get('/dashboard', [LoggerController::class, 'index'])->name('dashboard');
 });
