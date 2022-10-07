@@ -72,7 +72,7 @@
                                       fill-rule="evenodd"/>
                             </svg>
                         </Link>
-                    <div v-for="link in paginator.links">
+                     <div v-for="link,index in paginator.links" :key="index" >
                         <Link v-if="!isFirstOrLastOrDots(index,paginator.links.length,link.label)"
                                       :class="{'bg-blue-200' : link.active===true}"
                                       :href="link.url"
