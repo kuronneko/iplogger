@@ -13,9 +13,9 @@ class LoggerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
-
         $loggers = Logger::orderBy("id");
 
         //request()->session()->flash('message', 'Mensaje de prueba');
@@ -30,7 +30,7 @@ class LoggerController extends Controller
         $loggers = $loggers->paginate(10)->appends(request()->except("page"));
 
         //dd($users);
-        return Inertia::render('Dashboard', compact('loggers','search'));
+        return Inertia::render('Logger/Index', compact('loggers','search'));
 
         //$loggers = Logger::paginate(5);
         //return Inertia::render('Dashboard', compact('loggers'));
@@ -65,7 +65,7 @@ class LoggerController extends Controller
      */
     public function show(Logger $logger)
     {
-        return Inertia::render('Dashboard', compact('logger'));
+        return Inertia::render('Logger/Index', compact('logger'));
     }
 
     /**
