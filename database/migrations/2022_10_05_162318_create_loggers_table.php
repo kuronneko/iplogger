@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('logger', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id')->unique();
+            $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('ip');
             $table->string('country');
