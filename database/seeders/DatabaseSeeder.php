@@ -29,7 +29,6 @@ class DatabaseSeeder extends Seeder
         // ]);
         //protected $fillable = ['user_id','ip','country','city','browser','browser_version','platform','platform_version','agent','host'];
 
-        //\App\Models\Logger::factory(10)->create();
         $user = User::where('name', 'admin2')->first();
         if(!$user){
             $user = User::firstOrCreate([
@@ -41,8 +40,10 @@ class DatabaseSeeder extends Seeder
                 'email_verified_at' => now(),
             ]);
         }
-        $ip = '200.86.155.87';
-        Logger::create([
+
+        \App\Models\Logger::factory(20)->create();
+        //$ip = '200.86.155.87';
+/*         Logger::create([
             'user_id' => $user->id,
             'ip' => Location::get($ip)->ip,
             'country' => Location::get($ip)->countryName,
@@ -54,7 +55,7 @@ class DatabaseSeeder extends Seeder
             'agent' => Request::header('user-agent'),
             'host' => gethostbyaddr($ip),
 
-        ]);
+        ]); */
 
     }
 }
