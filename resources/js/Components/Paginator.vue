@@ -41,13 +41,13 @@
         <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
             <div>
                 <p class="text-sm text-gray-700 leading-5">
-                    Mostrando
+                    Showing
                     <span class="font-medium" v-text="firstItem"></span>
-                    para
+                    to
                     <span class="font-medium" v-text="lastItem"></span>
-                    de
+                    of
                     <span class="font-medium" v-text="total"></span>
-                    resultados
+                    results
                 </p>
             </div>
 
