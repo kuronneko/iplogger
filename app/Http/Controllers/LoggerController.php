@@ -21,7 +21,8 @@ class LoggerController extends Controller
         if (request()->has("search")) {
             $search = request("search");
             $loggers = $loggers->where('ip', 'like', '%' . $search . "%")
-                ->orWhere('host', 'like', '%' . $search . "%");
+                ->orWhere('country', 'like', '%' . $search . "%")
+                ->orWhere('city', 'like', '%' . $search . "%");;
         }
         $loggers = $loggers->paginate(10)->appends(request()->except("page"));
         return Inertia::render('Logger/Index', compact('loggers','search'));
