@@ -12,9 +12,8 @@
                     <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
 
                         <form method="get" class="flex mt-2" @submit.prevent="searchLogger">
-                            <jet-input v-model="form.search" id="search" class="w-full"
-                                @keydown.delete="clearKeyDown()"
-                                placeholder="Search by IP or HOST" type="text" />
+                            <jet-input v-model="form.search" id="search" class="w-full" @keydown.delete="clearKeyDown()"
+                                placeholder="Search by IP or Location" type="text" />
                             <jet-primary-button type="submit" class="ml-1">Search
                             </jet-primary-button>
                             <jet-primary-button v-if="$page.props.search" @click="clear()" class="ml-1">
@@ -32,12 +31,10 @@
                                     class='mx-auto max-w-7x1 w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden'>
                                     <thead class="bg-gray-800">
                                         <tr class="text-white text-left">
-                                            <th class="font-semibold text-sm uppercase px-6 py-4"> Date </th>
-                                            <th class="font-semibold text-sm uppercase px-6 py-4"> IP </th>
+                                            <th class="font-semibold text-sm uppercase px-6 py-4"> Date/Time </th>
+                                            <th class="font-semibold text-sm uppercase px-6 py-4"> IP Adress </th>
                                             <th class="font-semibold text-sm uppercase px-6 py-4">
-                                                Location </th>
-                                            <th class="font-semibold text-sm uppercase px-6 py-4">
-                                                Browser </th>
+                                                Country </th>
                                             <th class="font-semibold text-sm uppercase px-6 py-4"> Options</th>
                                         </tr>
                                     </thead>
@@ -46,7 +43,7 @@
                                             <td class="px-6 py-4">
                                                 <div class="flex items-center space-x-3">
                                                     <div>
-                                                        <p> {{ logger.updated_at }} </p>
+                                                        <p>  {{ moment(logger.updated_at).format('MMMM Do YYYY, h:mm:ss a') }} </p>
                                                     </div>
                                                 </div>
                                             </td>
@@ -54,10 +51,7 @@
                                                 <p class=""> {{ logger.ip }} </p>
                                             </td>
                                             <td class="px-6 py-4">
-                                                <p class=""> {{ logger.country +','+ logger.city }} </p>
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                <p class=""> {{ logger.browser }} </p>
+                                                <p class=""> {{ logger.country +', '+ logger.city }} </p>
                                             </td>
                                             <td class="px-6 py-4">
                                                 <!--                                             <jet-primary-button>
@@ -127,6 +121,7 @@ import JetDangerButton from "@/Components/DangerButton.vue";
 import JetInput from "@/Components/Input.vue";
 import { Link } from "@inertiajs/inertia-vue3";
 import Paginator from "@/Components/Paginator.vue";
+import moment from "moment";
 
 export default {
     props: {
@@ -139,6 +134,7 @@ export default {
             form: {
                 search: this.search,
             },
+            moment: moment,
         };
     },
     components: {
@@ -159,13 +155,43 @@ export default {
                 confirmButtonColor: '#212529',
                 width: 600,
                 background: '#fff',
-                text: '' + logger.ip + ',' + logger.host + ',' + logger.browser + '',
                 title: 'Logger Detail',
                 html: `
                 <div align='left'>
-                    <p>IP: <span>${logger.ip}</span></p>
-                    <p>HOST: <span>${logger.ip}</span></p>
-                    <p>BROWSER: <span>${logger.ip}</span></p>
+                    <table>
+                        <thead>
+                        </thead>
+                        <tbody class='divide-y divide-gray-200'>
+                        <tr>
+                            <td class='font-bold px-6 py-2'>Date/Time</td>
+                            <td>${moment(logger.updated_at).format('MMMM Do YYYY, h:mm:ss a')}</td>
+                        </tr>
+                        <tr>
+                            <td class='font-bold px-6 py-2'>IP Adress</td>
+                            <td>${logger.ip}</td>
+                        </tr>
+                        <tr>
+                            <td class='font-bold px-6 py-2'>Country</td>
+                            <td>${logger.country}, ${logger.city}</td>
+                        </tr>
+                        <tr>
+                            <td class='font-bold px-6 py-2'>Browser</td>
+                            <td>${logger.browser} (${logger.browser_version})</td>
+                        </tr>
+                        <tr>
+                            <td class='font-bold px-6 py-2'>Operating System</td>
+                            <td>${logger.platform} ${logger.platform_version}</td>
+                        </tr>
+                        <tr>
+                            <td class='font-bold px-6 py-2'>User Agent</td>
+                            <td>${logger.agent}</td>
+                        </tr>
+                        <tr>
+                            <td class='font-bold px-6 py-2'>Host Name</td>
+                            <td>${logger.host}</td>
+                        </tr>
+                        </tbody>
+                        </table>
                 </div>
                 `
             });
@@ -201,12 +227,12 @@ export default {
             })
         },
         searchLogger: function () {
-                if(this.form.search !== ''){
-                    Inertia.get(route("logger.index", this.form));
-                }
+            if (this.form.search !== '') {
+                Inertia.get(route("logger.index", this.form));
+            }
         },
         clearKeyDown: function () {
-            if(this.form.search == ''){
+            if (this.form.search == '') {
                 Inertia.get(route("logger.index"));
             }
         },
