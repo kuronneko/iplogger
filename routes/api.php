@@ -17,3 +17,5 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('network/get/{uuid}', [App\Http\Controllers\LoggerController::class, 'getNetwork'])->name('get_network');

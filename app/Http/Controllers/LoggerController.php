@@ -3,11 +3,49 @@
 namespace App\Http\Controllers;
 
 use App\Models\Logger;
-use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
+use Jenssegers\Agent\Facades\Agent;
+use Stevebauman\Location\Facades\Location;
 
 class LoggerController extends Controller
 {
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getNetwork(){
+        try {
+        /*     $ip = getenv('HTTP_CLIENT_IP')?:
+            getenv('HTTP_X_FORWARDED_FOR')?:
+            getenv('HTTP_X_FORWARDED')?:
+            getenv('HTTP_FORWARDED_FOR')?:
+            getenv('HTTP_FORWARDED')?:
+            getenv('REMOTE_ADDR'); */
+            $ip = '200.86.155.87';
+            $uuid = Request::route('uuid');
+            $logger = new Logger();
+            $logger->user_id = User::where('uuid', $uuid)->first()->id;
+            $logger->ip = $ip;
+            $logger->country = Location::get($ip)->countryName;
+            $logger->city = Location::get($ip)->cityName;
+            $logger->browser = Agent::browser();
+            $logger->browser_version = Agent::version(Agent::browser());
+            $logger->platform = Agent::platform();
+            $logger->platform_version = Agent::version(Agent::platform());
+            $logger->agent = Request::header('user-agent');
+            $logger->host = gethostbyaddr($ip);
+            $logger->save();
+            //return response()->json(['success' => 'Connection successfully']);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()]);
+        }
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,13 +54,13 @@ class LoggerController extends Controller
 
     public function index()
     {
-        $loggers = Logger::orderBy("id");
+        $loggers = Logger::where('user_id', Auth::user()->id)->orderBy("created_at", 'desc')->with(['user']);
         $search = "";
         if (request()->has("search")) {
             $search = request("search");
             $loggers = $loggers->where('ip', 'like', '%' . $search . "%")
                 ->orWhere('country', 'like', '%' . $search . "%")
-                ->orWhere('city', 'like', '%' . $search . "%");;
+                ->orWhere('city', 'like', '%' . $search . "%");
         }
         $loggers = $loggers->paginate(10)->appends(request()->except("page"));
         return Inertia::render('Logger/Index', compact('loggers','search'));
