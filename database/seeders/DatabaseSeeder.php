@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Jenssegers\Agent\Facades\Agent;
 use Stevebauman\Location\Facades\Location;
+use Stringable;
+use Illuminate\Support\Str;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -28,7 +31,6 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         //protected $fillable = ['user_id','ip','country','city','browser','browser_version','platform','platform_version','agent','host'];
-
         $user = User::where('name', 'admin2')->first();
         if(!$user){
             $user = User::firstOrCreate([
@@ -38,6 +40,7 @@ class DatabaseSeeder extends Seeder
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'email_verified_at' => now(),
+                'uuid' => Str::uuid(),
             ]);
         }
 
