@@ -1,11 +1,14 @@
 <?php
 
 use App\Http\Controllers\LoggerController;
+use App\Models\User;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Jenssegers\Agent\Facades\Agent;
 use Stevebauman\Location\Facades\Location;
+use Illuminate\Support\Facades\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,10 +45,9 @@ Route::get('/', function () {
     ]);
 });
 
-
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', ])->group(function () {
-     Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard', ['user'=> User::where('id', Auth::user()->id)->with(['setting'])->first() ]);
     })->name('dashboard');
     //Route::get('/dashboard', [LoggerController::class, 'index'])->name('dashboard');
     Route::resource('logger', LoggerController::class);
