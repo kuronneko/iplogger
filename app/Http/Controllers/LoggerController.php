@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Logger;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 use Jenssegers\Agent\Facades\Agent;
@@ -29,7 +31,8 @@ class LoggerController extends Controller
             $ip = '200.86.155.87';
             $uuid = Request::route('uuid');
             $logger = new Logger();
-            $logger->user_id = User::where('uuid', $uuid)->first()->id;
+           // $logger->user_id = User::where('uuid', $uuid)->first()->id;
+            $logger->user_id = Setting::where('uuid', $uuid)->first()->user->id;
             $logger->ip = $ip;
             $logger->country = Location::get($ip)->countryName;
             $logger->city = Location::get($ip)->cityName;
@@ -40,7 +43,13 @@ class LoggerController extends Controller
             $logger->agent = Request::header('user-agent');
             $logger->host = gethostbyaddr($ip);
             $logger->save();
-            //return response()->json(['success' => 'Connection successfully']);
+
+            if($logger->user->setting->silence_mode == 1){
+                return response()->json(['success' => 'Connection successfully']);
+            }else if($logger->user->setting->silence_mode == 0 && $logger->user->setting->redirect =! null){
+                return Redirect::away($logger->user->setting->redirect);
+            }
+
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()]);
         }
@@ -54,7 +63,7 @@ class LoggerController extends Controller
 
     public function index()
     {
-        $loggers = Logger::where('user_id', Auth::user()->id)->orderBy("created_at", 'desc')->with(['user']);
+        $loggers = Logger::where('user_id', Auth::user()->id)->orderBy("created_at", 'desc');
         $search = "";
         if (request()->has("search")) {
             $search = request("search");
