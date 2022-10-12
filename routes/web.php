@@ -51,4 +51,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     })->name('dashboard');
     //Route::get('/dashboard', [LoggerController::class, 'index'])->name('dashboard');
     Route::resource('logger', LoggerController::class);
+    Route::post('/silence-mode', [LoggerController::class, 'silenceToggle'])->name('silence_mode');
+    Route::post('/save-redirect', [LoggerController::class, 'saveRedirect'])->name('save_redirect');
 });
