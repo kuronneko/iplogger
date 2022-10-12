@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Logger;
+use App\Models\Setting;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -40,9 +41,15 @@ class DatabaseSeeder extends Seeder
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'email_verified_at' => now(),
-                'uuid' => Str::uuid(),
             ]);
         }
+
+        Setting::firstOrCreate([
+            'user_id' => $user->id,
+            'uuid' => Str::uuid(),
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
 
         \App\Models\Logger::factory(20)->create();
         //$ip = '200.86.155.87';
