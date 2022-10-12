@@ -18,8 +18,8 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->unique();
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('uuid');
-            $table->text('redirect');
-            $table->tinyInteger('silence_mode')->default(0);
+            $table->text('redirect')->nullable();
+            $table->integer('silence_mode')->default(1);
             $table->timestamps();
         });
     }
