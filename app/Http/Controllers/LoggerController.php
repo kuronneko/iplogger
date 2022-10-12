@@ -73,6 +73,7 @@ class LoggerController extends Controller
             }
             $user->setting->save();
             return redirect()->back();
+            //return Inertia::render('Dashboard', compact('user'));
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()]);
         }

@@ -32,7 +32,7 @@
                         <InputLabel for="silence_mode" value="Silence Mode" class="mb-2" />
                         <div>
                             <label preserve-scroll v-if="user.setting.silence_mode == 0"
-                                @click="toggleSilenceMode(user)" for="default-toggle"
+                                @click.once="toggleSilenceMode(user)" for="default-toggle"
                                 class="inline-flex relative items-center cursor-pointer">
                                 <input type="checkbox" value="" id="default-toggle" class="sr-only peer">
                                 <div
@@ -41,10 +41,8 @@
                                 <span class="ml-3 text-xs font-medium text-gray-900 dark:text-gray-300">Silent mode does
                                     not redirect when link is clicked</span>
                             </label>
-                        </div>
-                        <div>
                             <label preserve-scroll v-if="user.setting.silence_mode == 1"
-                                @click="toggleSilenceMode(user)" for="checked-toggle"
+                                @click.once="toggleSilenceMode(user)" for="checked-toggle"
                                 class="inline-flex relative items-center cursor-pointer">
                                 <input type="checkbox" value="" id="checked-toggle" class="sr-only peer" checked>
                                 <div
@@ -59,11 +57,11 @@
                     <div class="col-span-6 sm:col-span-12">
                         <InputLabel for="redirect" value="Redirecto to" />
 
-                        <form @submit.prevent="" class="flex">
+                        <form @submit.prevent="saveRedirect(user)" class="flex">
                             <TextInput v-model="redirect" :disabled="user.setting.silence_mode == 1" id="redirect"
                                 type="text" class="mt-1 block w-full"
                                 :class="v$.redirect.$error === true ? 'border-gray-300 focus:border-red-300 focus:ring focus:ring-red-200 focus:ring-opacity-50 rounded-md shadow-sm' : ''" />
-                            <jet-primary-button :disabled="user.setting.silence_mode == 1" @click="saveRedirect(user)"
+                            <jet-primary-button :disabled="user.setting.silence_mode == 1 || this.isLoading === true"
                                 class="ml-1">Save
                             </jet-primary-button>
                         </form>
@@ -106,6 +104,7 @@ export default {
         return {
             url: this.setUrl(),
             redirect: this.user.setting.redirect,
+            isLoading: null,
         };
     },
     validations() {
@@ -127,6 +126,19 @@ export default {
         Link,
     },
     methods: {
+        Toast() {
+            return this.$swal.mixin({
+                toast: true,
+                position: 'top',
+                showConfirmButton: false,
+                timer: 1700,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                    toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+                }
+            })
+        },
         setUrl() {
             //let [firstDetails] = this.personas;// es6 syntax of destructing the array
             let uuid = this.user.setting.uuid;
@@ -138,48 +150,50 @@ export default {
             if (navigator.clipboard) {
                 navigator.clipboard.writeText(this.url);
                 console.log(this.url)
-                const Toast = this.$swal.mixin({
-                    toast: true,
-                    position: 'top',
-                    showConfirmButton: false,
-                    timer: 1700,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', this.$swal.stopTimer)
-                        toast.addEventListener('mouseleave', this.$swal.resumeTimer)
-                    }
-                })
-                Toast.fire({
+                this.Toast().fire({
                     icon: 'success',
                     title: 'URL Copied to your clipboard'
                 })
             }
         },
         toggleSilenceMode: function (user) {
-            Inertia.post(route("silence_mode", { user: user.id }));
-            if (user.setting.redirect === null) {
-                this.redirect = 'https://www.google.com';
-            }
+            setTimeout(() => {
+                Inertia.post(route("silence_mode", { 'user': user.id }),
+                    {
+                        _method: 'put',
+                    });
+                if (user.setting.redirect === null) {
+                    this.redirect = 'https://www.google.com';
+                }
+                if (this.user.setting.silence_mode == 0) {
+                    this.Toast().fire({
+                        icon: 'success',
+                        title: 'Silence MODE ON'
+                    })
+                } else {
+                    this.Toast().fire({
+                        icon: 'success',
+                        title: 'Silence MODE OFF'
+                    })
+                }
+            }, 500)
         },
         saveRedirect: function (user) {
             this.v$.$touch();
             if (!this.v$.$error && user.setting.silence_mode == 0) {
-                Inertia.post(route("save_redirect", { user: user.id, redirect: this.redirect }));
-                const Toast = this.$swal.mixin({
-                    toast: true,
-                    position: 'top',
-                    showConfirmButton: false,
-                    timer: 1700,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', this.$swal.stopTimer)
-                        toast.addEventListener('mouseleave', this.$swal.resumeTimer)
-                    }
-                })
-                Toast.fire({
-                    icon: 'success',
-                    title: 'Redirect URL saved'
-                })
+                this.isLoading = true;
+                Inertia.post(route("save_redirect", { 'user': user.id, 'redirect': this.redirect }),
+                    {
+                        _method: 'put',
+                    });
+                setTimeout(() => {
+                    this.Toast().fire({
+                        icon: 'success',
+                        title: 'Redirect URL saved'
+                    })
+                    this.isLoading = null;
+                }, 1000)
+
             }
         },
     },
