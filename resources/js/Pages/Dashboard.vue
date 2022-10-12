@@ -168,12 +168,12 @@ export default {
                 if (this.user.setting.silence_mode == 0) {
                     this.Toast().fire({
                         icon: 'success',
-                        title: 'Silence MODE ON'
+                        title: 'Silence mode ON'
                     })
                 } else {
                     this.Toast().fire({
                         icon: 'success',
-                        title: 'Silence MODE OFF'
+                        title: 'Silence mode OFF'
                     })
                 }
             }, 500)

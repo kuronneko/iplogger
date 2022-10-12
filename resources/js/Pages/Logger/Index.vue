@@ -7,7 +7,7 @@
         </template>
 
             <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="bg-white overflow-hidden shadow-md sm:rounded-lg">
                     <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
 
                         <form method="get" class="flex mt-2" @submit.prevent="searchLogger">
@@ -31,7 +31,7 @@
                                     <thead class="bg-gray-800">
                                         <tr class="text-white text-left">
                                             <th class="font-semibold text-sm uppercase px-6 py-4"> Date/Time </th>
-                                            <th class="font-semibold text-sm uppercase px-6 py-4"> IP Adress </th>
+                                            <th class="font-semibold text-sm uppercase px-6 py-4"> IP Address </th>
                                             <th class="font-semibold text-sm uppercase px-6 py-4">
                                                 Country </th>
                                             <th class="font-semibold text-sm uppercase px-6 py-4"> Options</th>
@@ -165,7 +165,7 @@ export default {
                             <td>${moment(logger.updated_at).format('MMMM Do YYYY, h:mm:ss a')}</td>
                         </tr>
                         <tr>
-                            <td class='font-bold px-6 py-2'>IP Adress</td>
+                            <td class='font-bold px-6 py-2'>IP Address</td>
                             <td>${logger.ip}</td>
                         </tr>
                         <tr>

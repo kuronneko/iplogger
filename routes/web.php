@@ -22,13 +22,16 @@ use Illuminate\Support\Facades\Request;
 */
 
 Route::get('/', function () {
-/*     $ip = getenv('HTTP_CLIENT_IP')?:
-    getenv('HTTP_X_FORWARDED_FOR')?:
-    getenv('HTTP_X_FORWARDED')?:
-    getenv('HTTP_FORWARDED_FOR')?:
-    getenv('HTTP_FORWARDED')?:
-    getenv('REMOTE_ADDR'); */
-    $ip = '200.86.155.87';
+    if(env('APP_ENV') == 'local'){
+        $ip = '200.86.155.87';
+    }else if(env('APP_ENV') == 'production'){
+        $ip = getenv('HTTP_CLIENT_IP')?:
+        getenv('HTTP_X_FORWARDED_FOR')?:
+        getenv('HTTP_X_FORWARDED')?:
+        getenv('HTTP_FORWARDED_FOR')?:
+        getenv('HTTP_FORWARDED')?:
+        getenv('REMOTE_ADDR');
+    }
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
