@@ -60,22 +60,23 @@ class LoggerController extends Controller
 
     public function silenceToggle(){
         $user = User::findOrFail(request('user'));
-        if(auth()->user()->id != $user->id){
-            return response()->json(['error' => 'Access deny']);
-        }
         try {
-            //$setting = Setting::where('user_id', auth()->user()->id)->first();
-            if($user->setting->silence_mode == 1){
-                $user->setting->silence_mode = 0;
+            if(auth()->user()->id == $user->id){
+                //$setting = Setting::where('user_id', auth()->user()->id)->first();
+                if($user->setting->silence_mode == 1){
+                    $user->setting->silence_mode = 0;
+                }else{
+                    $user->setting->silence_mode = 1;
+                }
+                if($user->setting->redirect === null){
+                    $user->setting->redirect = 'https://www.google.com';
+                }
+                $user->setting->save();
+                return redirect()->back();
+                //return Inertia::render('Dashboard', compact('user'));
             }else{
-                $user->setting->silence_mode = 1;
+                return response()->json(['error' => 'Access deny']);
             }
-            if($user->setting->redirect === null){
-                $user->setting->redirect = 'https://www.google.com';
-            }
-            $user->setting->save();
-            return redirect()->back();
-            //return Inertia::render('Dashboard', compact('user'));
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()]);
         }
@@ -83,14 +84,15 @@ class LoggerController extends Controller
 
     public function saveRedirect(){
         $user = User::findOrFail(request('user'));
-        if(auth()->user()->id != $user->id){
-            return response()->json(['error' => 'Access deny']);
-        }
         try {
-            if(request('redirect') != '' && $user->setting->silence_mode == 0){
-                $user->setting->redirect = request('redirect');
-                $user->setting->save();
-                return redirect()->back();
+            if(auth()->user()->id == $user->id){
+                if(request('redirect') != '' && $user->setting->silence_mode == 0){
+                    $user->setting->redirect = request('redirect');
+                    $user->setting->save();
+                    return redirect()->back();
+                }else{
+                    return response()->json(['error' => 'Access deny']);
+                }
             }
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()]);
@@ -108,8 +110,8 @@ class LoggerController extends Controller
         $search = "";
         if (request()->has("search")) {
             $search = request("search");
-            $loggers = $loggers->where('ip', 'like', '%' . str_replace(',', '', str_replace(' ', '', $search)) . '%')
-                ->orWhere(DB::raw('concat(country, city)'), 'like', '%' . str_replace(',', '', str_replace(' ', '', $search)) . '%');
+            $loggers = $loggers->where(DB::raw('concat(country, city)'), 'like', '%' . str_replace(',', '', str_replace(' ', '', $search)) . '%')
+            ->orWhere('ip', 'like', '%' . str_replace(',', '', str_replace(' ', '', $search)) . '%')->where('user_id', Auth::user()->id);
         }
         $loggers = $loggers->paginate(10)->appends(request()->except("page"));
         return Inertia::render('Logger/Index', compact('loggers','search'));
@@ -178,7 +180,15 @@ class LoggerController extends Controller
      */
     public function destroy(Logger $logger)
     {
-        $logger->delete();
-        return redirect()->back()->with('message', 'Logger deleted');
+        try {
+            if(auth()->user()->id == $logger->user->id){
+                $logger->delete();
+                return redirect()->back()->with('message', 'Logger deleted');
+            }else{
+                return response()->json(['error' => 'Access deny']);
+            }
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()]);
+        }
     }
 }
