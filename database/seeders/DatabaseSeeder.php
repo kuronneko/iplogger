@@ -51,7 +51,7 @@ class DatabaseSeeder extends Seeder
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
-        \App\Models\Logger::factory(20)->create();
+        \App\Models\Logger::factory(200)->create();
         //$ip = '200.86.155.87';
 /*         Logger::create([
             'user_id' => $user->id,

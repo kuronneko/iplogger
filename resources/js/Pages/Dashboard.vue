@@ -29,7 +29,7 @@
                     </div>
 
                     <div class="col-span-6 sm:col-span-12">
-                        <InputLabel for="silence_mode" value="Silence Mode" class="mb-2" />
+                        <InputLabel for="silence_mode" value="Silent Mode" class="mb-2" />
                         <div>
                             <label preserve-scroll v-if="user.setting.silence_mode == 0"
                                 @click.once="toggleSilenceMode(user)" for="default-toggle"
@@ -168,12 +168,12 @@ export default {
                 if (this.user.setting.silence_mode == 0) {
                     this.Toast().fire({
                         icon: 'success',
-                        title: 'Silence mode ON'
+                        title: 'Silent mode ON'
                     })
                 } else {
                     this.Toast().fire({
                         icon: 'success',
-                        title: 'Silence mode OFF'
+                        title: 'Silent mode OFF'
                     })
                 }
             }, 500)

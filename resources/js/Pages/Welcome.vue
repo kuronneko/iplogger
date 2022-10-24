@@ -35,9 +35,9 @@ defineProps({
         </template>
     </div>
     <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-md sm:rounded-lg">
+        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
 
-            <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
+            <div class="p-6 sm:px-20">
                 <div>
                     <ApplicationLogo class="block h-12 w-auto" />
                 </div>
