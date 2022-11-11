@@ -7,11 +7,13 @@ use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 use Jenssegers\Agent\Facades\Agent;
 use Stevebauman\Location\Facades\Location;
+use Illuminate\Validation\ValidationException;
 
 class LoggerController extends Controller
 {
@@ -170,6 +172,30 @@ class LoggerController extends Controller
     public function update(Request $request, $id)
     {
         //
+    }
+
+        /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteAllLogs()
+    {
+            if(Hash::check(request('password'), auth()->user()->password)){
+                try {
+                    $user = User::findOrFail(auth()->user()->id);
+                    $logger = Logger::where('user_id', $user->id);
+                    $logger->delete();
+                    return redirect()->back()->with('message', 'All Logs was deleted successfully');
+                } catch (\Throwable $th) {
+                    return response()->json(['error' => $th->getMessage()]);
+                }
+            }else{
+                throw ValidationException::withMessages([
+                    'password' => __('The password is incorrect.'),
+                ]);
+            }
     }
 
     /**
