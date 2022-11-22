@@ -14,6 +14,7 @@ use Inertia\Inertia;
 use Jenssegers\Agent\Facades\Agent;
 use Stevebauman\Location\Facades\Location;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Str;
 
 class LoggerController extends Controller
 {
@@ -23,6 +24,7 @@ class LoggerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function getNetwork(){
         try {
             if(env('APP_ENV') == 'local'){
@@ -60,46 +62,6 @@ class LoggerController extends Controller
         }
     }
 
-    public function silenceToggle(){
-        $user = User::findOrFail(request('user'));
-        try {
-            if(auth()->user()->id == $user->id){
-                //$setting = Setting::where('user_id', auth()->user()->id)->first();
-                if($user->setting->silence_mode == 1){
-                    $user->setting->silence_mode = 0;
-                }else{
-                    $user->setting->silence_mode = 1;
-                }
-                if($user->setting->redirect === null){
-                    $user->setting->redirect = 'https://www.google.com';
-                }
-                $user->setting->save();
-                return redirect()->back();
-                //return Inertia::render('Dashboard', compact('user'));
-            }else{
-                return response()->json(['error' => 'Access deny']);
-            }
-        } catch (\Throwable $th) {
-            return response()->json(['error' => $th->getMessage()]);
-        }
-    }
-
-    public function saveRedirect(){
-        $user = User::findOrFail(request('user'));
-        try {
-            if(auth()->user()->id == $user->id){
-                if(request('redirect') != '' && $user->setting->silence_mode == 0){
-                    $user->setting->redirect = request('redirect');
-                    $user->setting->save();
-                    return redirect()->back();
-                }else{
-                    return response()->json(['error' => 'Access deny']);
-                }
-            }
-        } catch (\Throwable $th) {
-            return response()->json(['error' => $th->getMessage()]);
-        }
-    }
     /**
      * Display a listing of the resource.
      *

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\LoggerController;
+use App\Http\Controllers\RedirectShortUrl;
+use App\Http\Controllers\SettingController;
 use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
@@ -54,7 +56,12 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     })->name('dashboard');
     //Route::get('/dashboard', [LoggerController::class, 'index'])->name('dashboard');
     Route::resource('logger', LoggerController::class);
-    Route::put('/silence_mode', [LoggerController::class, 'silenceToggle'])->name('silence_mode');
-    Route::put('/save-redirect', [LoggerController::class, 'saveRedirect'])->name('save_redirect');
     Route::delete('/delete-all-logs', [LoggerController::class, 'deleteAllLogs'])->name('delete_all_logs');
+
+    Route::put('/generate-slug', [SettingController::class, 'generateSlug'])->name('setting.generate_slug');
+    Route::put('/silence-mode', [SettingController::class, 'silenceToggle'])->name('setting.silence_mode');
+    Route::put('/save-redirect', [SettingController::class, 'saveRedirect'])->name('setting.save_redirect');
+
 });
+
+Route::get('{setting:slug}', RedirectShortUrl::class)->name('redirect_short_url');

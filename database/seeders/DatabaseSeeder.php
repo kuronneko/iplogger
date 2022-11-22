@@ -47,6 +47,7 @@ class DatabaseSeeder extends Seeder
         Setting::firstOrCreate([
             'user_id' => $user->id,
             'uuid' => Str::uuid(),
+            'slug' => Str::random(20),
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);

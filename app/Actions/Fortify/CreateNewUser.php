@@ -38,6 +38,7 @@ class CreateNewUser implements CreatesNewUsers
         Setting::create([
             'user_id' => $user->id,
             'uuid' => Str::uuid(),
+            'slug' => Str::random(6),
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);

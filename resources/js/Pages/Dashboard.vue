@@ -30,6 +30,18 @@
                         </div>
 
                         <div class="col-span-6 sm:col-span-12">
+                            <InputLabel for="shortUrl" value="Short URL" />
+                            <div class="flex">
+                                <TextInput readonly v-model="shortUrl" type="text" class="mt-1 block w-full"
+                                    autocomplete="url" />
+                                <PrimaryButton @click="generateShortUrl(user)" v-if="user.setting.slug === null" class="ml-1">Generate
+                                </PrimaryButton>
+                                <PrimaryButton @click="copyShortUrl()" v-if="user.setting.slug" class="ml-1">Copy
+                                </PrimaryButton>
+                            </div>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-12">
                             <InputLabel for="silence_mode" value="Silent Mode" class="mb-2" />
                             <div>
                                 <label preserve-scroll v-if="user.setting.silence_mode == 0"
@@ -115,6 +127,7 @@ export default {
     data() {
         return {
             url: this.setUrl(),
+            shortUrl: this.setShortUrl(),
             redirect: this.user.setting.redirect,
             isLoading: null,
         };
@@ -140,6 +153,21 @@ export default {
         Link,
     },
     methods: {
+        generateShortUrl: function (user) {
+            if (user.setting.slug === null) {
+                Inertia.post(route("setting.generate_slug", { 'user': user.id }),
+                    {
+                        _method: 'put',
+                    });
+                setTimeout(() => {
+                    this.Toast().fire({
+                        icon: 'success',
+                        title: 'Redirect URL saved'
+                    })
+                    this.shortUrl = this.setShortUrl();
+                }, 500)
+            }
+        },
         Toast() {
             return this.$swal.mixin({
                 toast: true,
@@ -152,6 +180,17 @@ export default {
                     toast.addEventListener('mouseleave', this.$swal.resumeTimer)
                 }
             })
+        },
+        setShortUrl() {
+            if(this.user.setting.slug){
+            //let [firstDetails] = this.personas;// es6 syntax of destructing the array
+            let slug = this.user.setting.slug;
+            let hostname = location.hostname;
+            let protocol = 'https';
+            return protocol + '://' + hostname + '/' + slug;
+            }else{
+                return '';
+            }
         },
         setUrl() {
             //let [firstDetails] = this.personas;// es6 syntax of destructing the array
@@ -170,9 +209,19 @@ export default {
                 })
             }
         },
+        copyShortUrl() {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(this.shortUrl);
+                console.log(this.shortUrl)
+                this.Toast().fire({
+                    icon: 'success',
+                    title: 'Short URL Copied to your clipboard'
+                })
+            }
+        },
         toggleSilenceMode: function (user) {
             setTimeout(() => {
-                Inertia.post(route("silence_mode", { 'user': user.id }),
+                Inertia.post(route("setting.silence_mode", { 'user': user.id }),
                     {
                         _method: 'put',
                     });
@@ -196,7 +245,7 @@ export default {
             this.v$.$touch();
             if (!this.v$.$error && user.setting.silence_mode == 0) {
                 this.isLoading = true;
-                Inertia.post(route("save_redirect", { 'user': user.id, 'redirect': this.redirect }),
+                Inertia.post(route("setting.save_redirect", { 'user': user.id, 'redirect': this.redirect }),
                     {
                         _method: 'put',
                     });
