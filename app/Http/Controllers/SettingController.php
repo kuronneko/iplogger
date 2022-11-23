@@ -19,8 +19,7 @@ class SettingController extends Controller
         //
     }
 
-    public function silenceToggle(){
-        $user = User::findOrFail(request('user'));
+    public function silenceToggle(User $user){
         try {
             if(auth()->user()->id == $user->id){
                 //$setting = Setting::where('user_id', auth()->user()->id)->first();
@@ -43,8 +42,7 @@ class SettingController extends Controller
         }
     }
 
-    public function generateSlug(){
-        $user = User::findOrFail(request('user'));
+    public function generateSlug(User $user){
         try {
             if(auth()->user()->id == $user->id && $user->setting->slug === null){
                     $user->setting->slug = Str::random(6);

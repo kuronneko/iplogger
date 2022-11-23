@@ -155,7 +155,7 @@ export default {
     methods: {
         generateShortUrl: function (user) {
             if (user.setting.slug === null) {
-                Inertia.post(route("setting.generate_slug", { 'user': user.id }),
+                Inertia.post(route("setting.generate_slug", user),
                     {
                         _method: 'put',
                     });
@@ -168,18 +168,45 @@ export default {
                 }, 500)
             }
         },
-        Toast() {
-            return this.$swal.mixin({
-                toast: true,
-                position: 'top',
-                showConfirmButton: false,
-                timer: 1700,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', this.$swal.stopTimer)
-                    toast.addEventListener('mouseleave', this.$swal.resumeTimer)
+        toggleSilenceMode: function (user) {
+            setTimeout(() => {
+                Inertia.post(route("setting.silence_mode", user),
+                    {
+                        _method: 'put',
+                    });
+                if (user.setting.redirect === null) {
+                    this.redirect = 'https://www.google.com';
                 }
-            })
+                if (this.user.setting.silence_mode == 0) {
+                    this.Toast().fire({
+                        icon: 'success',
+                        title: 'Silent mode ON'
+                    })
+                } else {
+                    this.Toast().fire({
+                        icon: 'success',
+                        title: 'Silent mode OFF'
+                    })
+                }
+            }, 500)
+        },
+        saveRedirect: function (user) {
+            this.v$.$touch();
+            if (!this.v$.$error && user.setting.silence_mode == 0) {
+                this.isLoading = true;
+                Inertia.post(route("setting.save_redirect", { 'user': user.id, 'redirect': this.redirect }),
+                    {
+                        _method: 'put',
+                    });
+                setTimeout(() => {
+                    this.Toast().fire({
+                        icon: 'success',
+                        title: 'Redirect URL saved'
+                    })
+                    this.isLoading = null;
+                }, 1000)
+
+            }
         },
         setShortUrl() {
             if(this.user.setting.slug){
@@ -219,45 +246,18 @@ export default {
                 })
             }
         },
-        toggleSilenceMode: function (user) {
-            setTimeout(() => {
-                Inertia.post(route("setting.silence_mode", { 'user': user.id }),
-                    {
-                        _method: 'put',
-                    });
-                if (user.setting.redirect === null) {
-                    this.redirect = 'https://www.google.com';
+        Toast() {
+            return this.$swal.mixin({
+                toast: true,
+                position: 'top',
+                showConfirmButton: false,
+                timer: 1700,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', this.$swal.stopTimer)
+                    toast.addEventListener('mouseleave', this.$swal.resumeTimer)
                 }
-                if (this.user.setting.silence_mode == 0) {
-                    this.Toast().fire({
-                        icon: 'success',
-                        title: 'Silent mode ON'
-                    })
-                } else {
-                    this.Toast().fire({
-                        icon: 'success',
-                        title: 'Silent mode OFF'
-                    })
-                }
-            }, 500)
-        },
-        saveRedirect: function (user) {
-            this.v$.$touch();
-            if (!this.v$.$error && user.setting.silence_mode == 0) {
-                this.isLoading = true;
-                Inertia.post(route("setting.save_redirect", { 'user': user.id, 'redirect': this.redirect }),
-                    {
-                        _method: 'put',
-                    });
-                setTimeout(() => {
-                    this.Toast().fire({
-                        icon: 'success',
-                        title: 'Redirect URL saved'
-                    })
-                    this.isLoading = null;
-                }, 1000)
-
-            }
+            })
         },
     },
 };
