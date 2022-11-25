@@ -92,10 +92,10 @@
                     <ExportAllLog class="mt-10 sm:mt-0"/>
 
                     <SectionBorder />
+                    <ImportAllLog class="mt-10 sm:mt-0"/>
+
+                    <SectionBorder />
                     <DeleteAllLog class="mt-10 sm:mt-0"/>
-
-
-
 
             </div>
         </div>
@@ -121,6 +121,7 @@ import { required, url } from '@vuelidate/validators'
 import SectionBorder from '@/Components/SectionBorder.vue';
 import DeleteAllLog from '@/Pages/Dashboard/DeleteAllLog.vue';
 import ExportAllLog from "./Dashboard/ExportAllLog.vue";
+import ImportAllLog from "./Dashboard/ImportAllLog.vue";
 
 export default {
     setup() {
@@ -156,7 +157,8 @@ export default {
     //JetButton,
     Paginator,
     Link,
-    ExportAllLog
+    ExportAllLog,
+    ImportAllLog,
 },
     methods: {
         generateShortUrl: function (user) {
