@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\LoggersExport;
 use App\Models\Logger;
 use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
@@ -15,6 +17,7 @@ use Jenssegers\Agent\Facades\Agent;
 use Stevebauman\Location\Facades\Location;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class LoggerController extends Controller
 {
@@ -158,6 +161,17 @@ class LoggerController extends Controller
                     'password' => __('The password is incorrect.'),
                 ]);
             }
+    }
+
+            /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function export()
+    {
+        return Excel::download(new LoggersExport, 'loggers '. Date::now() .'.xlsx');
     }
 
     /**

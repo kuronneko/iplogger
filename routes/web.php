@@ -62,6 +62,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     Route::put('{user}', [SettingController::class, 'silenceToggle'])->name('setting.silence_mode');
     Route::put('/setting/save/redirect', [SettingController::class, 'saveRedirect'])->name('setting.save_redirect');
 
+    Route::get('/loggers/export/', [LoggerController::class, 'export'])->name('export');
 });
 
 Route::get('{setting:slug}', RedirectShortUrl::class)->name('redirect_short_url');
+

@@ -88,9 +88,13 @@
                     </template>
                 </FormSection>
 
+                    <SectionBorder />
+                    <ExportAllLog class="mt-10 sm:mt-0"/>
 
                     <SectionBorder />
                     <DeleteAllLog class="mt-10 sm:mt-0"/>
+
+
 
 
             </div>
@@ -116,6 +120,7 @@ import useVuelidate from '@vuelidate/core'
 import { required, url } from '@vuelidate/validators'
 import SectionBorder from '@/Components/SectionBorder.vue';
 import DeleteAllLog from '@/Pages/Dashboard/DeleteAllLog.vue';
+import ExportAllLog from "./Dashboard/ExportAllLog.vue";
 
 export default {
     setup() {
@@ -138,20 +143,21 @@ export default {
         }
     },
     components: {
-        DeleteAllLog,
-        SectionBorder,
-        useVuelidate,
-        FormSection,
-        InputError,
-        InputLabel,
-        TextInput,
-        AppLayout,
-        //JetDialogModal,
-        PrimaryButton,
-        //JetButton,
-        Paginator,
-        Link,
-    },
+    DeleteAllLog,
+    SectionBorder,
+    useVuelidate,
+    FormSection,
+    InputError,
+    InputLabel,
+    TextInput,
+    AppLayout,
+    //JetDialogModal,
+    PrimaryButton,
+    //JetButton,
+    Paginator,
+    Link,
+    ExportAllLog
+},
     methods: {
         generateShortUrl: function (user) {
             if (user.setting.slug === null) {
