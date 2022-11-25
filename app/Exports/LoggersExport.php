@@ -14,6 +14,6 @@ class LoggersExport implements FromCollection
     public function collection()
     {
         //return Logger::all();
-        return Logger::where('user_id', Auth::user()->id)->get();
+        return Logger::where('user_id', Auth::user()->id)->orderBy("created_at", 'desc')->get();
     }
 }
