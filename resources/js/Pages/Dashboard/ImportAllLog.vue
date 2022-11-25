@@ -87,9 +87,11 @@ const Toast = () => {
                     </PrimaryButton>
                 </div>
                 <div class="mt-2">
-                        <progress class="text-gray-900" v-if="form.progress" :value="form.progress.percentage" max="100">
-                        {{ form.progress.percentage }}%
-                    </progress>
+                    <div v-if="form.progress" class="w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700">
+                        <div class="bg-gray-600 h-2.5 rounded-full dark:bg-gray-300" :value="form.progress.percentage"
+                            max="100">
+                        </div>
+                    </div>
                 </div>
             </div>
         </template>
