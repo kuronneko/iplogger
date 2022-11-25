@@ -63,6 +63,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     Route::put('/setting/save/redirect', [SettingController::class, 'saveRedirect'])->name('setting.save_redirect');
 
     Route::get('/loggers/export/', [LoggerController::class, 'export'])->name('export');
+    Route::post('/loggers/import/', [LoggerController::class, 'import'])->name('import');
 });
 
 Route::get('{setting:slug}', RedirectShortUrl::class)->name('redirect_short_url');

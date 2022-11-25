@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\LoggersExport;
+use App\Imports\LoggersImport;
 use App\Models\Logger;
 use App\Models\Setting;
 use App\Models\User;
@@ -163,15 +164,21 @@ class LoggerController extends Controller
             }
     }
 
-            /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function export()
     {
         return Excel::download(new LoggersExport, 'loggers '. Date::now() .'.xlsx');
+    }
+
+    public function import()
+    {
+        try {
+            Excel::import(new LoggersImport, request()->file('file'));
+            return redirect()->back()->with('message', 'Logger uploaded successfully');
+        } catch (\Throwable $th) {
+            return redirect()->back()->withErrors([
+                'error' => 'Invalid file type or format'
+            ]);
+        }
     }
 
     /**
