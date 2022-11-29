@@ -4,8 +4,9 @@ namespace App\Imports;
 
 use App\Models\Logger;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class LoggersImport implements ToModel
+class LoggersImport implements ToModel, WithHeadingRow
 {
     /**
     * @param array $row
@@ -15,6 +16,22 @@ class LoggersImport implements ToModel
     public function model(array $row)
     {
         return new Logger([
+            'id'     => $row['id'],
+            'user_id'    => $row['user_id'],
+            'ip'    => $row['ip'],
+            'country'    => $row['country'],
+            'city'    => $row['city'],
+            'browser'    => $row['browser'],
+            'browser_version'    => $row['browser_version'],
+            'platform'    => $row['platform'],
+            'platform_version'    => $row['platform_version'],
+            'agent'    => $row['agent'],
+            'host'    => $row['host'],
+            'created_at'    => $row['created_at'],
+            'updated_at'    => $row['updated_at'],
+        ]);
+
+/*         return new Logger([
             'id'     => $row[0],
             'user_id'    => $row[1],
             'ip'    => $row[2],
@@ -28,6 +45,6 @@ class LoggersImport implements ToModel
             'host'    => $row[10],
             'created_at'    => $row[11],
             'updated_at'    => $row[12],
-        ]);
+        ]); */
     }
 }
