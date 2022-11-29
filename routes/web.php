@@ -58,9 +58,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     Route::resource('logger', LoggerController::class);
     Route::delete('/delete-all-logs', [LoggerController::class, 'deleteAllLogs'])->name('delete_all_logs');
 
-    Route::put('{user}', [SettingController::class, 'generateSlug'])->name('setting.generate_slug');
-    Route::put('{user}', [SettingController::class, 'silenceToggle'])->name('setting.silence_mode');
-    Route::put('/setting/save/redirect', [SettingController::class, 'saveRedirect'])->name('setting.save_redirect');
+    Route::put('/setting/generate-slug/{user}', [SettingController::class, 'generateSlug'])->name('setting_generate_slug');
+    Route::put('/setting/silence-mode/{user}', [SettingController::class, 'silenceToggle'])->name('setting_silence_mode');
+    Route::put('/setting/save-redirect', [SettingController::class, 'saveRedirect'])->name('setting_save_redirect');
 
     Route::get('/loggers/export/', [LoggerController::class, 'export'])->name('export');
     Route::post('/loggers/import/', [LoggerController::class, 'import'])->name('import');

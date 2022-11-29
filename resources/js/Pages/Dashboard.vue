@@ -184,7 +184,7 @@ export default {
     methods: {
         generateShortUrl: function (user) {
             if (user.setting.slug === null) {
-                Inertia.post(route("setting.generate_slug", user),
+                Inertia.post(route("setting_generate_slug", user),
                     {
                         _method: 'put',
                     });
@@ -199,7 +199,7 @@ export default {
         },
         toggleSilenceMode: function (user) {
             setTimeout(() => {
-                Inertia.post(route("setting.silence_mode", user),
+                Inertia.post(route("setting_silence_mode", user),
                     {
                         _method: 'put',
                     });
@@ -223,7 +223,7 @@ export default {
             this.v$.$touch();
             if (!this.v$.$error && user.setting.silence_mode == 0) {
                 this.isLoading = true;
-                Inertia.post(route("setting.save_redirect", { 'user': user.id, 'redirect': this.redirect }),
+                Inertia.post(route("setting_save_redirect", { 'user': user.id, 'redirect': this.redirect }),
                     {
                         _method: 'put',
                     });
