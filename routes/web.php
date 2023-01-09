@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GraphController;
 use App\Http\Controllers\LoggerController;
 use App\Http\Controllers\RedirectShortUrl;
 use App\Http\Controllers\SettingController;
@@ -64,6 +65,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 
     Route::get('/loggers/export/', [LoggerController::class, 'export'])->name('export');
     Route::post('/loggers/import/', [LoggerController::class, 'import'])->name('import');
+
+    Route::resource('graph', GraphController::class);
+    Route::get('/graph/get/loggers/', [GraphController::class, 'getLoggers'])->name('graph.get.loggers');
 });
 
 Route::get('{setting:slug}', RedirectShortUrl::class)->name('redirect_short_url');
