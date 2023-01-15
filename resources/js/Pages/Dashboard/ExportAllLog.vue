@@ -15,10 +15,10 @@ import { Inertia } from "@inertiajs/inertia";
 const swal = inject('$swal');
 const isLoading = ref(false);
 
-/* defineProps({
+defineProps({
     user: Object,
 });
- */
+
 const exportLogs = () => {
      isLoading.value = true;
     setTimeout(() => {
@@ -46,7 +46,7 @@ const exportLogs = () => {
 
             <div class="mt-5">
 
-                <PrimaryButton v-if="isLoading === false" class="py-3" @click="exportLogs">
+                <PrimaryButton v-if="isLoading === false" :disabled="Object.keys(user.loggers).length === 0" class="py-3" @click="exportLogs">
                     Export All your Logs
                 </PrimaryButton>
 

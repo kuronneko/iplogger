@@ -5,6 +5,7 @@ namespace App\Imports;
 use App\Models\Logger;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Illuminate\Support\Facades\Auth;
 
 class LoggersImport implements ToModel, WithHeadingRow
 {
@@ -17,7 +18,7 @@ class LoggersImport implements ToModel, WithHeadingRow
     {
         return new Logger([
             'id'     => $row['id'],
-            'user_id'    => $row['user_id'],
+            'user_id'    => Auth::user()->id,
             'ip'    => $row['ip'],
             'country'    => $row['country'],
             'city'    => $row['city'],

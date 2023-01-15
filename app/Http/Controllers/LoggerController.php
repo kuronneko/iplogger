@@ -166,7 +166,13 @@ class LoggerController extends Controller
 
     public function export()
     {
-        return Excel::download(new LoggersExport, 'loggers '. Date::now() .'.xlsx');
+        try {
+            return Excel::download(new LoggersExport, 'loggers '. Date::now() .'.xlsx');
+        } catch (\Throwable $th) {
+            return redirect()->back()->withErrors([
+                'error' => $th->getMessage()
+            ]);
+        }
     }
 
     public function import()
@@ -176,7 +182,7 @@ class LoggerController extends Controller
             return redirect()->back()->with('message', 'Logger uploaded successfully');
         } catch (\Throwable $th) {
             return redirect()->back()->withErrors([
-                'error' => 'Invalid file type or format'
+                'error' => 'Invalid file type format or ' . $th->getMessage()
             ]);
         }
     }
