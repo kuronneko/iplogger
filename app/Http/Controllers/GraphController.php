@@ -26,7 +26,7 @@ class GraphController extends Controller
     public function getTotal(){
 
         $type = request('type');
-        $visits = Logger::selectRaw(''.$type.', COUNT(*) as total')
+        $visits = Logger::where('user_id', Auth::user()->id)->selectRaw(''.$type.', COUNT(*) as total')
                 ->groupBy($type)
                 ->orderBy('total', 'desc')
                 ->get();
