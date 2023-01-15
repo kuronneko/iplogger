@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GraphController;
 use App\Http\Controllers\LoggerController;
 use App\Http\Controllers\RedirectShortUrl;
 use App\Http\Controllers\SettingController;
@@ -64,6 +65,12 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 
     Route::get('/loggers/export/', [LoggerController::class, 'export'])->name('export');
     Route::post('/loggers/import/', [LoggerController::class, 'import'])->name('import');
+
+    Route::resource('graph', GraphController::class);
+    Route::get('/graph/get/total/{type}', [GraphController::class, 'getTotal'])->name('graph.get.total');
+/*     Route::get('/graph/get/country/total/', [GraphController::class, 'getCountryTotal'])->name('graph.get.country.total');
+    Route::get('/graph/get/platform/total/', [GraphController::class, 'getPlatformTotal'])->name('graph.get.platform.total');
+    Route::get('/graph/get/browser/total/', [GraphController::class, 'getBrowserTotal'])->name('graph.get.browser.total'); */
 });
 
 Route::get('{setting:slug}', RedirectShortUrl::class)->name('redirect_short_url');

@@ -191,7 +191,7 @@ export default {
                 setTimeout(() => {
                     this.Toast().fire({
                         icon: 'success',
-                        title: 'Redirect URL saved'
+                        title: 'Short URL generated'
                     })
                     this.shortUrl = this.setShortUrl();
                 }, 500)
