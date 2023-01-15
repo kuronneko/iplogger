@@ -22,16 +22,61 @@ class GraphController extends Controller
         return Inertia::render('Graph/Index');
     }
 
-    public function getLoggers(){
-        $label = Logger::all()->pluck('city');
-        $data= Logger::all()->pluck('id');
+
+    public function getTotal(){
+
+        $type = request('type');
+        $visits = Logger::selectRaw(''.$type.', COUNT(*) as total')
+                ->groupBy($type)
+                ->orderBy('total', 'desc')
+                ->get();
 
         $customChart = new Chart;
-        $customChart->labels = $label->toArray();
-        $customChart->dataset = $data->toArray();
+        $customChart->title = $type;
+        $customChart->labels = $visits->pluck($type);
+        $customChart->dataset = $visits->pluck('total');
 
         return $customChart;
     }
+
+/*     public function getCountryTotal(){
+        $visits = Logger::selectRaw('country, COUNT(*) as total')
+                ->groupBy('country')
+                ->orderBy('total', 'desc')
+                ->get();
+
+        $customChart = new Chart;
+        $customChart->labels = $visits->pluck('country');
+        $customChart->dataset = $visits->pluck('total');
+
+        return $customChart;
+    }
+
+    public function getPlatformTotal(){
+        $visits = Logger::selectRaw('platform, COUNT(*) as total')
+                ->groupBy('platform')
+                ->orderBy('total', 'desc')
+                ->get();
+
+        $customChart = new Chart;
+        $customChart->labels = $visits->pluck('platform');
+        $customChart->dataset = $visits->pluck('total');
+
+        return $customChart;
+    }
+
+    public function getBrowserTotal(){
+        $visits = Logger::selectRaw('browser, COUNT(*) as total')
+                ->groupBy('browser')
+                ->orderBy('total', 'desc')
+                ->get();
+
+        $customChart = new Chart;
+        $customChart->labels = $visits->pluck('browser');
+        $customChart->dataset = $visits->pluck('total');
+
+        return $customChart;
+    } */
     /**
      * Show the form for creating a new resource.
      *

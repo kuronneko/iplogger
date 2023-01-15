@@ -10,6 +10,19 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-md">
                 <div class="p-4 sm:px-6">
                     <div class="container">
+                        <div class="grid sm:grid-cols-2 grid-cols-1">
+                            <div class="left-0 mb-5">
+                                <label for="countries"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sort by</label>
+                                <select @change="graphSelect" id="graphSelect"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500">
+                                    <option value="city">Most visited City</option>
+                                    <option value="country">Most visited Country</option>
+                                    <option value="platform">Most Platform used</option>
+                                    <option value="browser">Most Browrser used</option>
+                                </select>
+                            </div>
+                        </div>
                         <Bar v-if="loaded" :data="chartData" />
                     </div>
                 </div>
@@ -26,33 +39,42 @@ import AppLayout from "@/Layouts/AppLayout.vue";
 
 import { Bar } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
-
+import DropDown from "@/Components/Dropdown.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 export default {
     name: 'BarChart',
-    components: { Bar, AppLayout },
+    components: { Bar, AppLayout, DropDown, PrimaryButton },
     data() {
         return {
             loaded: false,
             chartData: null,
+            //select: null,
         };
     },
-    async mounted() {
-        this.getData();
+    mounted() {
+        this.setSelectedGraph();
     },
     methods: {
-        async getData() {
+        graphSelect(event) {
+            this.setSelectedGraph();
+        },
+        setSelectedGraph() {
+            let graphSelect = document.getElementById("graphSelect");
+            this.getTotal(graphSelect.value);
+        },
+        async getTotal(graphSelectValue) {
             this.loaded = false;
-            await this.axios.get(route('graph.get.loggers'))
+            await this.axios.get(route('graph.get.total', {type:graphSelectValue}))
                 .then(response => {
                     this.loaded = true;
                     let customData = {
                         labels: response.data.labels,
                         datasets: [{
-                            label: 'My First dataset',
-                            backgroundColor: 'rgb(255, 99, 132)',
-                            borderColor: 'rgb(255, 99, 132)',
+                            label: 'Sort by '+response.data.title+'',
+                            backgroundColor: 'rgb(31, 41, 55)',
+                            borderColor: 'rgb(31, 41, 55)',
                             data: response.data.dataset,
                         }]
                     };
@@ -62,33 +84,33 @@ export default {
                     return null;
                 })
         },
-/*         data: function () {
-            let customData
-            return customData = {
-                labels: this.labels,
-                datasets: [{
-                    label: 'My First dataset',
-                    backgroundColor: 'rgb(255, 99, 132)',
-                    borderColor: 'rgb(255, 99, 132)',
-                    data: this.datasets,
-                }]
-            };
-        },
-        labelAarray() {
-            let labels;
-            return labels = [
-                'January',
-                'February',
-                'March',
-                'April',
-                'May',
-                'June',
-            ];
-        },
-        datasetArray() {
-            let data;
-            return data = [0, 10, 5, 2, 20, 30, 45, 11];
-        }, */
+        /*         data: function () {
+                    let customData
+                    return customData = {
+                        labels: this.labels,
+                        datasets: [{
+                            label: 'My First dataset',
+                            backgroundColor: 'rgb(255, 99, 132)',
+                            borderColor: 'rgb(255, 99, 132)',
+                            data: this.datasets,
+                        }]
+                    };
+                },
+                labelAarray() {
+                    let labels;
+                    return labels = [
+                        'January',
+                        'February',
+                        'March',
+                        'April',
+                        'May',
+                        'June',
+                    ];
+                },
+                datasetArray() {
+                    let data;
+                    return data = [0, 10, 5, 2, 20, 30, 45, 11];
+                }, */
     },
 }
 

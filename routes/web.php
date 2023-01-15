@@ -67,7 +67,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     Route::post('/loggers/import/', [LoggerController::class, 'import'])->name('import');
 
     Route::resource('graph', GraphController::class);
-    Route::get('/graph/get/loggers/', [GraphController::class, 'getLoggers'])->name('graph.get.loggers');
+    Route::get('/graph/get/total/{type}', [GraphController::class, 'getTotal'])->name('graph.get.total');
+/*     Route::get('/graph/get/country/total/', [GraphController::class, 'getCountryTotal'])->name('graph.get.country.total');
+    Route::get('/graph/get/platform/total/', [GraphController::class, 'getPlatformTotal'])->name('graph.get.platform.total');
+    Route::get('/graph/get/browser/total/', [GraphController::class, 'getBrowserTotal'])->name('graph.get.browser.total'); */
 });
 
 Route::get('{setting:slug}', RedirectShortUrl::class)->name('redirect_short_url');
