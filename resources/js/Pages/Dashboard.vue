@@ -110,7 +110,7 @@
                 </FormSection>
 
                 <SectionBorder />
-                <ExportAllLog class="mt-10 sm:mt-0" />
+                <ExportAllLog class="mt-10 sm:mt-0" :user="user" />
 
                 <SectionBorder />
                 <ImportAllLog class="mt-10 sm:mt-0" />

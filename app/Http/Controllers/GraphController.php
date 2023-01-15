@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Chart;
+use Carbon\Carbon;
 
 class GraphController extends Controller
 {
@@ -26,11 +27,34 @@ class GraphController extends Controller
     public function getTotal(){
 
         $type = request('type');
-        $visits = Logger::where('user_id', Auth::user()->id)->selectRaw(''.$type.', COUNT(*) as total')
-                ->groupBy($type)
-                ->orderBy('total', 'desc')
-                ->get();
+        $date = request('date');
 
+        if($date == 'all'){
+            $visits = Logger::where('user_id', Auth::user()->id)->selectRaw(''.$type.', COUNT(*) as total')
+            ->groupBy($type)
+            ->orderBy('total', 'desc')
+            ->get();
+        }else if($date == 'day'){
+            $visits = Logger::where('user_id', Auth::user()->id)->where('created_at', '>=', Carbon::now()->subDay())->selectRaw(''.$type.', COUNT(*) as total')
+            ->groupBy($type)
+            ->orderBy('total', 'desc')
+            ->get();
+        }else if($date == 'week'){
+            $visits = Logger::where('user_id', Auth::user()->id)->where('created_at', '>=', Carbon::now()->subWeek())->selectRaw(''.$type.', COUNT(*) as total')
+            ->groupBy($type)
+            ->orderBy('total', 'desc')
+            ->get();
+        }else if($date == 'month'){
+            $visits = Logger::where('user_id', Auth::user()->id)->where('created_at', '>=', Carbon::now()->subMonth())->selectRaw(''.$type.', COUNT(*) as total')
+            ->groupBy($type)
+            ->orderBy('total', 'desc')
+            ->get();
+        }else if($date == 'year'){
+            $visits = Logger::where('user_id', Auth::user()->id)->where('created_at', '>=', Carbon::now()->subYear())->selectRaw(''.$type.', COUNT(*) as total')
+            ->groupBy($type)
+            ->orderBy('total', 'desc')
+            ->get();
+        }
         $customChart = new Chart;
         $customChart->title = $type;
         $customChart->labels = $visits->pluck($type);

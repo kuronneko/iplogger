@@ -53,7 +53,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified', ])->group(function () {
     Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard', ['user'=> User::where('id', Auth::user()->id)->with(['setting'])->first() ]);
+        return Inertia::render('Dashboard', ['user'=> User::where('id', Auth::user()->id)->with(['setting', 'loggers'])->first() ]);
     })->name('dashboard');
     //Route::get('/dashboard', [LoggerController::class, 'index'])->name('dashboard');
     Route::resource('logger', LoggerController::class);
@@ -67,7 +67,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     Route::post('/loggers/import/', [LoggerController::class, 'import'])->name('import');
 
     Route::resource('graph', GraphController::class);
-    Route::get('/graph/get/total/{type}', [GraphController::class, 'getTotal'])->name('graph.get.total');
+    Route::get('/graph/get/total/{date}/{type}', [GraphController::class, 'getTotal'])->name('graph.get.total');
 /*     Route::get('/graph/get/country/total/', [GraphController::class, 'getCountryTotal'])->name('graph.get.country.total');
     Route::get('/graph/get/platform/total/', [GraphController::class, 'getPlatformTotal'])->name('graph.get.platform.total');
     Route::get('/graph/get/browser/total/', [GraphController::class, 'getBrowserTotal'])->name('graph.get.browser.total'); */

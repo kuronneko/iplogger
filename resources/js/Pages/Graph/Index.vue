@@ -10,11 +10,23 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-md">
                 <div class="p-4 sm:px-6">
                     <div class="container">
-                        <div class="grid sm:grid-cols-2 grid-cols-1">
-                            <div class="left-0 mb-5">
-                                <label for="countries"
+                        <div class="grid sm:grid-cols-6 grid-cols-2">
+                            <div class="left-0 mb-5 p-1">
+                                <label for="total"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
+                                <select @change="graphSelect" id="graphSelectDate"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500">
+                                    <option value="all">All Time</option>
+                                    <option value="day">Last Day</option>
+                                    <option value="week">Last Week</option>
+                                    <option value="month">Last Month</option>
+                                    <option value="year">Last Year</option>
+                                </select>
+                            </div>
+                            <div class="left-0 mb-5 p-1">
+                                <label for="total"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sort by</label>
-                                <select @change="graphSelect" id="graphSelect"
+                                <select @change="graphSelect" id="graphSelectType"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500">
                                     <option value="city">Most visited City</option>
                                     <option value="country">Most visited Country</option>
@@ -61,12 +73,13 @@ export default {
             this.setSelectedGraph();
         },
         setSelectedGraph() {
-            let graphSelect = document.getElementById("graphSelect");
-            this.getTotal(graphSelect.value);
+            let graphSelectType = document.getElementById("graphSelectType");
+            let graphSelectDate = document.getElementById("graphSelectDate");
+            this.getTotal(graphSelectDate.value, graphSelectType.value);
         },
-        async getTotal(graphSelectValue) {
+        async getTotal(graphSelectDateValue, graphSelectTypeValue) {
             this.loaded = false;
-            await this.axios.get(route('graph.get.total', {type:graphSelectValue}))
+            await this.axios.get(route('graph.get.total', {date:graphSelectDateValue, type:graphSelectTypeValue}))
                 .then(response => {
                     this.loaded = true;
                     let customData = {

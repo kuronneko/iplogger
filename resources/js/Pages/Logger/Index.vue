@@ -42,7 +42,7 @@
                                             <td class="px-6 py-4">
                                                 <div class="flex items-center space-x-3">
                                                     <div>
-                                                        <p>  {{ moment(logger.updated_at).format('MMMM Do YYYY, h:mm:ss a') }} </p>
+                                                        <p>  {{ moment(logger.created_at).format('MMMM Do YYYY, h:mm:ss a') }} </p>
                                                     </div>
                                                 </div>
                                             </td>
@@ -162,7 +162,7 @@ export default {
                         <tbody class='divide-y divide-gray-200'>
                         <tr>
                             <td class='font-bold px-6 py-2'>Date/Time</td>
-                            <td>${moment(logger.updated_at).format('MMMM Do YYYY, h:mm:ss a')}</td>
+                            <td>${moment(logger.created_at).format('MMMM Do YYYY, h:mm:ss a')}</td>
                         </tr>
                         <tr>
                             <td class='font-bold px-6 py-2'>IP Address</td>
