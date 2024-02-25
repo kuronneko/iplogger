@@ -21,7 +21,7 @@ Data analysis project that provides the possibility of capturing user informatio
 ### Preview:
 <p> <img src="https://kuronneko.github.io/assets/img/portfolioip.png" width="450"> </p>
 
-How to install [Docker]
+### How to install [Docker]
 
     cp .env.example .env
     composer install
@@ -32,3 +32,32 @@ How to install [Docker]
     ./vendor/bin/sail php artisan storage:link
     ./vendor/bin/sail php artisan migrate:refresh --seed
     ./vendor/bin/sail build --no-cache (REBUILD IMAGE) (OPTIONAL)
+
+### How to use
+
+Account Creation:
+
+* Visit the website and locate the option to create an account.
+* Click on the "Create Account" or similar button.
+* Fill out the required information such as username, email, and password.
+* Once your account is created, you should be able to log in with your credentials.
+
+Settings Section:
+
+* After logging in, navigate to the settings section of the panel.
+* Here, you can find various options related to your account settings.
+* Look for the option that provides the URL to access user information IP.
+* Click on the provided link or copy it for future reference.
+* This URL will allow you to access information about your IP address or other related details.
+
+Logger Section:
+
+* In the panel or dashboard, locate the "Logger" section.
+* Click on this section to access your logs.
+* Here, you can view a chronological list of all events logged by URL.
+* Logs may include actions such as user information IP.
+
+Graphs Section:
+
+* Find the "Graphs" section within the panel or dashboard.
+* Click on this section to access graphical representations of data.
