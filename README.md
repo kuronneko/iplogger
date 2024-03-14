@@ -1,4 +1,4 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">
 <a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
@@ -7,60 +7,57 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+# Kuro.IPLogger!
+### Description: 
+Data analysis project that provides the possibility of capturing user information IP through a LINK (to collect data), and processing it in graphical way. This app has a few options to configure it.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Features adn Technologies:
+* Laravel 9 + VueJS 3 + TailwindCSS
+* Single-page app using InertiaJS
+* AWS EC2 R53
+* Excel import and export
+* Short URL
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Preview:
+<p> <img src="https://kuronneko.github.io/assets/img/portfolioip.png" width="450"> </p>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### How to install [Docker]
 
-## Learning Laravel
+    cp .env.example .env
+    composer install
+    php artisan sail:install
+    0,3,5,7
+    ./vendor/bin/sail up
+    ./vendor/bin/sail php artisan key:generate
+    ./vendor/bin/sail php artisan storage:link
+    ./vendor/bin/sail php artisan migrate:refresh --seed
+    ./vendor/bin/sail build --no-cache (REBUILD IMAGE) (OPTIONAL)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### How to use
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Account Creation:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+* Visit the website and locate the option to create an account.
+* Click on the "Create Account" or similar button.
+* Fill out the required information such as username, email, and password.
+* Once your account is created, you should be able to log in with your credentials.
 
-## Laravel Sponsors
+Settings Section:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+* After logging in, navigate to the settings section of the panel.
+* Here, you can find various options related to your account settings.
+* Look for the option that provides the URL to access user information IP.
+* Click on the provided link or copy it for future reference.
+* This URL will allow you to access information about your IP address or other related details.
 
-### Premium Partners
+Logger Section:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+* In the panel or dashboard, locate the "Logger" section.
+* Click on this section to access your logs.
+* Here, you can view a chronological list of all events logged by URL.
+* Logs may include actions such as user information IP.
 
-## Contributing
+Graphs Section:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+* Find the "Graphs" section within the panel or dashboard.
+* Click on this section to access graphical representations of data.
