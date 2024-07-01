@@ -7,7 +7,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-# Kuro.IPLogger!
+# IPLogger!
 ### Description: 
 Data analysis project that provides the possibility of capturing user information IP through a LINK (to collect data), and processing it in graphical way. This app has a few options to configure it.
 
