@@ -19,7 +19,7 @@ Data analysis project that provides the possibility of capturing user informatio
 * Short URL
 
 ### Preview:
-<p> <img src="https://kuronneko.github.io/assets/img/portfolioip.png" width="450"> </p>
+<p> <img src="https://kuronneko.github.io/assets/img/portfolioip2.png" width="450"> </p>
 
 ### How to install [Docker]
 
