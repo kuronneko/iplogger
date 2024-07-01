@@ -10,7 +10,7 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue';
             </div>
 
             <div class="mt-8 text-2xl">
-                Welcome to the IPLogger!
+                Garbage information recollector.
             </div>
 
             <div class="mt-6 text-gray-500">
