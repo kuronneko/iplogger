@@ -43,14 +43,11 @@ defineProps({
                 </div>
 
                 <div class="mt-8 text-2xl">
-                    Welcome to Kuro.IPLogger!
+                    Welcome to IPLogger!
                 </div>
 
                 <div class="mt-6 text-gray-500">
-                    Kuro.IPLogger! It is a web service that provides the possibility to create an account and generate a
-                    URL to capture user information IP.
-                    <br>
-                    This application has some options to configure it.
+                    An IP logger application records IP addresses of devices connecting to a network or website, capturing details like timestamps and device types. It provides geolocation mapping, a user dashboard for viewing and filtering logs, and generates reports. Key features include alerts for suspicious activity, data export, and integration with other tools. Ensuring data security and legal compliance, it is used for website analytics, security monitoring, compliance, and network management.
                 </div>
             </div>
 
