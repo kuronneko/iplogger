@@ -1,0 +1,1 @@
+import{o as a,c as o,w as e,h as t,L as s,a as c}from"./app.8538b28a.js";const r=c("img",{src:"/img/icon.png",alt:"Laravel Logo",class:"block h-12 w-auto"},null,-1),u={__name:"AuthenticationCardLogo",setup(n){return(_,i)=>(a(),o(t(s),{href:"/"},{default:e(()=>[r]),_:1}))}};export{u as _};
