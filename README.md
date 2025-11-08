@@ -125,6 +125,51 @@ When using Sail prefix commands with `./vendor/bin/sail`.
 - Use the Graphs section to view visual reports of collected data.
 - Import/export logs via the provided Excel import/export tools in the UI.
 
+### Create users via Tinker (artisan)
+
+You can create users quickly using Laravel Tinker. Examples below cover both interactive and one-line (non-interactive) approaches.
+
+Interactive (local):
+
+    php artisan tinker
+    >>> use App\Models\User;
+    >>> use Illuminate\Support\Facades\Hash;
+    >>> User::create([
+    ...     'name' => 'Admin User',
+    ...     'email' => 'admin@example.com',
+    ...     'password' => Hash::make('secret123'),
+    ...     'email_verified_at' => now(),
+    ... ]);
+
+Or using a factory (if available):
+
+    php artisan tinker
+    >>> App\Models\User::factory()->create([
+    ...     'email' => 'admin@example.com',
+    ...     'password' => Hash::make('secret123'),
+    ... ]);
+
+One-line (non-interactive) — local:
+
+    php artisan tinker --execute "App\Models\User::create(['name'=>'Admin','email'=>'admin@example.com','password'=>\Illuminate\Support\Facades\Hash::make('secret123'),'email_verified_at'=>now()]);"
+
+Using Sail (interactive):
+
+    ./vendor/bin/sail artisan tinker
+
+And run the same `User::create(...)` commands inside the Tinker shell.
+
+Using Sail (non-interactive / one-liner):
+
+    ./vendor/bin/sail artisan tinker --execute "App\Models\User::create(['name'=>'Admin','email'=>'admin@example.com','password'=>\Illuminate\Support\Facades\Hash::make('secret123'),'email_verified_at'=>now()]);"
+
+Notes:
+
+- Always use `Hash::make(...)` or `bcrypt(...)` to store password hashes rather than plain text.
+- Set `email_verified_at` if you want the account to be treated as verified.
+- If your `User` model has guarded fields or mutators, adapt the examples accordingly (for example, use `User::create()` vs `User::forceCreate()`).
+- For repeatable setup consider creating a seeder (recommended for production/test setup).
+
 ## Troubleshooting
 
 - If migrations fail, verify DB credentials in `.env` and that DB service is running.

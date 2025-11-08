@@ -32,7 +32,8 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         //protected $fillable = ['user_id','ip','country','city','browser','browser_version','platform','platform_version','agent','host'];
-        $user = User::where('name', 'admin2')->first();
+
+/*         $user = User::where('name', 'admin2')->first();
         if(!$user){
             $user = User::firstOrCreate([
                 'name' => 'admin2',
@@ -52,7 +53,8 @@ class DatabaseSeeder extends Seeder
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
-        \App\Models\Logger::factory(200)->create();
+        \App\Models\Logger::factory(200)->create(); */
+
         //$ip = '200.86.155.87';
 /*         Logger::create([
             'user_id' => $user->id,
