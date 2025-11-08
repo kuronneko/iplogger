@@ -25,9 +25,9 @@ use Illuminate\Support\Facades\Request;
 */
 
 Route::get('/', function () {
-    if(env('APP_ENV') == 'local'){
+    if(config('app.env') == 'local'){
         $ip = '200.86.155.87';
-    }else if(env('APP_ENV') == 'production'){
+    }else if(config('app.env') == 'production'){
         $ip = getenv('HTTP_CLIENT_IP')?:
         getenv('HTTP_X_FORWARDED_FOR')?:
         getenv('HTTP_X_FORWARDED')?:
